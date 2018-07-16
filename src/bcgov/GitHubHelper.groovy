@@ -210,8 +210,12 @@ class GitHubHelper {
     static void createCommitStatus(CpsScript script, String ref, String statusName, String targetUrl, String description, String context) {
         
         script.echo "createCommitStatus  22222"
-        script.echo script.scm.getUserRemoteConfigs()[0].getUrl()
-
+        script.echo "url=${script.scm.getUserRemoteConfigs()[0].getUrl()}"
+        script.echo "ref=${ref}"
+        script.echo "statusName=${statusName}"
+        script.echo "targetUrl=${targetUrl}"
+        script.echo "description=${description}"
+        script.echo "context=${context}"
 
         createCommitStatus(script.scm.getUserRemoteConfigs()[0].getUrl() as String, ref, statusName, targetUrl, description, context)
     }
