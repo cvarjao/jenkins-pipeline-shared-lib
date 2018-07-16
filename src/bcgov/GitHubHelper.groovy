@@ -200,7 +200,7 @@ class GitHubHelper {
     }
     @NonCPS
     static void createCommitStatus(String url, String sha1, String statusName, String targetUrl, String description, String context) {
-        echo "in createCommitStatus String"
+        println "createCommitStatus  11111"
         def ghRepo=getGitHubRepository(url)
         def ghCommitState=GHCommitState.valueOf(statusName)
 
@@ -208,7 +208,7 @@ class GitHubHelper {
     }
 
     static void createCommitStatus(CpsScript script, String ref, String statusName, String targetUrl, String description, String context) {
-        script.echo "in createCommitStatus CpsScript"
+        println "createCommitStatus  22222"
         createCommitStatus(script.scm.getUserRemoteConfigs()[0].getUrl() as String, ref, statusName, targetUrl, description, context)
     }
 }
