@@ -10,6 +10,8 @@ import com.cloudbees.jenkins.GitHubRepositoryName
 *   - https://github.com/jenkinsci/github-plugin/blob/master/src/main/java/com/cloudbees/jenkins/GitHubRepositoryName.java
 * */
 class GitHubHelper {
+    
+    static CpsScript myscript;
 
     static String getRepositoryUrl(CpsScript script){
         return script.scm.getUserRemoteConfigs()[0].getUrl()
@@ -200,7 +202,7 @@ class GitHubHelper {
     }
     @NonCPS
     static void createCommitStatus(String url, String sha1, String statusName, String targetUrl, String description, String context) {
-        this.echo "createCommitStatus  11111"
+        myscript.echo "createCommitStatus  11111"
         def ghRepo=getGitHubRepository(url)
         def ghCommitState=GHCommitState.valueOf(statusName)
 
@@ -208,7 +210,7 @@ class GitHubHelper {
     }
 
     static void createCommitStatus(CpsScript script, String ref, String statusName, String targetUrl, String description, String context) {
-        
+        myscript = script
         script.echo "createCommitStatus  22222"
         script.echo "url=${script.scm.getUserRemoteConfigs()[0].getUrl()}"
         script.echo "ref=${ref}"
