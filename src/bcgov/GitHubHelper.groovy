@@ -200,7 +200,7 @@ class GitHubHelper {
     }
     @NonCPS
     static void createCommitStatus(String url, String sha1, String statusName, String targetUrl, String description, String context) {
-        println "createCommitStatus  11111"
+        script.echo "createCommitStatus  11111"
         def ghRepo=getGitHubRepository(url)
         def ghCommitState=GHCommitState.valueOf(statusName)
 
