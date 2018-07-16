@@ -205,6 +205,7 @@ class GitHubHelper {
         myscript.echo "createCommitStatus  11111"
         def ghRepo=getGitHubRepository(url)
         def ghCommitState=GHCommitState.valueOf(statusName)
+        myscript.echo "ghCommitState=${ghCommitState}"
 
         ghRepo.createCommitStatus(sha1, ghCommitState, targetUrl, description, context)
     }
