@@ -213,6 +213,6 @@ class GitHubHelper {
         println script.scm.getUserRemoteConfigs()[0].getUrl()
 
 
-        createCommitStatus(script.scm.getUserRemoteConfigs()[0].getUrl() as String, ref, statusName, targetUrl, description, context)
+        //createCommitStatus(script.scm.getUserRemoteConfigs()[0].getUrl() as String, ref, statusName, targetUrl, description, context)
     }
 }
