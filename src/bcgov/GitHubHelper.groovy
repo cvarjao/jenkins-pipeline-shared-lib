@@ -202,24 +202,26 @@ class GitHubHelper {
     }
     @NonCPS
     static void createCommitStatus(String url, String sha1, String statusName, String targetUrl, String description, String context) {
-        myscript.echo "createCommitStatus  11111"
+        myscript.echo "---- start GitHubHelper.createCommitStatus() 22"
         def ghRepo=getGitHubRepository(url)
         def ghCommitState=GHCommitState.valueOf(statusName)
-        myscript.echo "ghCommitState=${ghCommitState}"
+        myscript.echo "---- in GitHubHelper.createCommitStatus() 22ghCommitState=${ghCommitState}"
 
         ghRepo.createCommitStatus(sha1, ghCommitState, targetUrl, description, context)
+        myscript.echo "---- end GitHubHelper.createCommitStatus() 22"
     }
 
     static void createCommitStatus(CpsScript script, String ref, String statusName, String targetUrl, String description, String context) {
         myscript = script
-        script.echo "createCommitStatus  22222"
-        script.echo "url=${script.scm.getUserRemoteConfigs()[0].getUrl()}"
-        script.echo "ref=${ref}"
-        script.echo "statusName=${statusName}"
-        script.echo "targetUrl=${targetUrl}"
-        script.echo "description=${description}"
-        script.echo "context=${context}"
+        script.echo "---- start GitHubHelper.createCommitStatus() 11"
+        script.echo "---- in GitHubHelper.createCommitStatus() 11 url=${script.scm.getUserRemoteConfigs()[0].getUrl()}"
+        script.echo "---- in GitHubHelper.createCommitStatus() 11 ref=${ref}"
+        script.echo "---- in GitHubHelper.createCommitStatus() 11 statusName=${statusName}"
+        script.echo "---- in GitHubHelper.createCommitStatus() 11 targetUrl=${targetUrl}"
+        script.echo "---- in GitHubHelper.createCommitStatus() 11 description=${description}"
+        script.echo "---- in GitHubHelper.createCommitStatus() 11 context=${context}"
 
         createCommitStatus(script.scm.getUserRemoteConfigs()[0].getUrl() as String, ref, statusName, targetUrl, description, context)
+        script.echo "---- out GitHubHelper.createCommitStatus() 11"
     }
 }
