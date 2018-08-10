@@ -11,6 +11,7 @@ class OpenShiftHelper {
     static String ANNOTATION_ROUTE_TLS_SECRET_NAME='template.openshift.io.bcgov/tls-secret-name'
     static String ANNOTATION_ALLOW_CREATE='template.openshift.io.bcgov/create'
     static String ANNOTATION_ALLOW_UPDATE='template.openshift.io.bcgov/update'
+    static CpsScript script myscript
 
     @NonCPS
     private String getLastSha1InPath(String gitURL, String head, String path) {
@@ -768,7 +769,7 @@ class OpenShiftHelper {
         return baseName
     }
 
-    CpsScript script myscript;
+    
     void waitUntilEnvironmentIsReady(CpsScript script, Map context, String envKeyName){
         script.echo "---- Start OpenShiftHealper.waitUntilEnvironmentIsReady() 111"
         myscript = script
