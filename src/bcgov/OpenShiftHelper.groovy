@@ -431,12 +431,13 @@ class OpenShiftHelper {
         def stashIncludes=[]
         for ( List templates : context.templates.values()){
             for ( Map template : templates){
+                script.echo "----- start OpenshuftHelper.build() template=${template}"
                 if (template.file){
                     stashIncludes.add(template.file)
                 }
             }
         }
-        script.echo "----- start OpenshuftHelper.build() context=${context}"
+        script.echo "----- in OpenshuftHelper.build() context=${context}"
         script.echo "BRANCH_NAME=${script.env.BRANCH_NAME}\nCHANGE_ID=${script.env.CHANGE_ID}\nCHANGE_TARGET=${script.env.CHANGE_TARGET}\nBUILD_URL=${script.env.BUILD_URL}\nisPullRequestFromFork"
         script.echo "absoluteUrl=${script.currentBuild.absoluteUrl}"
 
