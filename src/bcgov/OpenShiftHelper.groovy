@@ -779,10 +779,12 @@ class OpenShiftHelper {
                 Map deployCfg = context.deploy
                 openshift.withCluster() {
                     openshift.withProject(deployCfg.projectName) {
-                        script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 666"
+                        script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 666 deployCfg.projectName=${deployCfg.projectName}"
                         Map models = loadObjectsFromTemplate(openshift, context.templates.deployment, context, 'deployment')
+                        script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 666AA models.values()=${models.values()}"
 
                         for (Map m : models.values()) {
+                            script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 666BB m=${m}"
                             Map annotations=m?.metadata?.annotations?:[:]
                             script.echo "Checking '${key(m)}'"
                             script.echo "  annotations:${annotations}"
