@@ -763,17 +763,23 @@ class OpenShiftHelper {
     }
 
     void waitUntilEnvironmentIsReady(CpsScript script, Map context, String envKeyName){
+        script.echo "---- Start OpenShiftHealper.waitUntilEnvironmentIsReady() 111"
         OpenShiftDSL openshift=script.openshift
         script.unstash(name: 'openshift')
+        script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 222"
         initializeDeploymentContext(script, openshift, context, envKeyName)
+        script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 333"
 
         script.waitUntil {
+            script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 444"
             boolean isReady=false
             List errors = []
+            script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 555"
             try {
                 Map deployCfg = context.deploy
                 openshift.withCluster() {
                     openshift.withProject(deployCfg.projectName) {
+                        script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 666"
                         Map models = loadObjectsFromTemplate(openshift, context.templates.deployment, context, 'deployment')
 
                         for (Map m : models.values()) {
@@ -802,18 +808,20 @@ class OpenShiftHelper {
 
                     } //end withProject
                 } // end withCluster
+                script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 777"
                 isReady = errors.size() == 0
             } catch (ex) {
                 script.echo "Error: ${ex}"
                 isReady = false
             }
-
+script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 888"
             if (!isReady){
                 for (String err:errors){
                     script.echo "${err}"
                 }
                 script.input "Retry Environment Readiness Check?"
             }
+            script.echo "---- out OpenShiftHealper.waitUntilEnvironmentIsReady() 999"
 
             return isReady
         }
