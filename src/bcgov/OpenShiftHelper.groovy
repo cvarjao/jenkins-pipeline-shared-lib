@@ -436,7 +436,7 @@ class OpenShiftHelper {
                 }
             }
         }
-
+        script.echo "----- start OpenshuftHelper.build() context=${context}"
         script.echo "BRANCH_NAME=${script.env.BRANCH_NAME}\nCHANGE_ID=${script.env.CHANGE_ID}\nCHANGE_TARGET=${script.env.CHANGE_TARGET}\nBUILD_URL=${script.env.BUILD_URL}\nisPullRequestFromFork"
         script.echo "absoluteUrl=${script.currentBuild.absoluteUrl}"
 
