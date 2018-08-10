@@ -97,9 +97,14 @@ class OpenShiftHelper {
     }
 
     private Map loadObjectsFromTemplate(OpenShiftDSL openshift, List templates, Map context, String purpose){
+        myscript.echo "start OpenshiftHelper.loadObjectsFromTemplate() openshift=${openshift}"
+        myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() templates=${templates}"
+        myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() context=${context}"
+        myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() purpose=${purpose}"
         def models = [:]
         if (templates !=null && templates.size() > 0) {
             for (Map template : templates) {
+                myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() template=${template}"
                 List parameters=getTemplateParameters(openshift.raw('process', '-f', template.file, '--parameters').out)
                 template.params = template.params?:[:]
 
@@ -124,6 +129,7 @@ class OpenShiftHelper {
                         }
                     }
                 }
+                myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() template=${template}"
                 List params=createProcessTemplateParameters(template.params, context)
                 String firstParam=template?.template
                 if (template.file){
@@ -762,8 +768,10 @@ class OpenShiftHelper {
         return baseName
     }
 
+    CpsScript script myscript;
     void waitUntilEnvironmentIsReady(CpsScript script, Map context, String envKeyName){
         script.echo "---- Start OpenShiftHealper.waitUntilEnvironmentIsReady() 111"
+        myscript = script
         OpenShiftDSL openshift=script.openshift
         script.unstash(name: 'openshift')
         script.echo "---- in OpenShiftHealper.waitUntilEnvironmentIsReady() 222"
