@@ -98,14 +98,16 @@ class OpenShiftHelper {
     }
 
     private Map loadObjectsFromTemplate(OpenShiftDSL openshift, List templates, Map context, String purpose){
-        myscript.echo "start OpenshiftHelper.loadObjectsFromTemplate() openshift=${openshift}"
+        if( myscript!=null ) {
+            myscript.echo "start OpenshiftHelper.loadObjectsFromTemplate() openshift=${openshift}"
         myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() templates=${templates}"
         myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() context=${context}"
         myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() purpose=${purpose}"
+        }
         def models = [:]
         if (templates !=null && templates.size() > 0) {
             for (Map template : templates) {
-                myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() template=${template}"
+                if( myscript!=null ) {myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() template=${template}"}
                 List parameters=getTemplateParameters(openshift.raw('process', '-f', template.file, '--parameters').out)
                 template.params = template.params?:[:]
 
@@ -130,7 +132,7 @@ class OpenShiftHelper {
                         }
                     }
                 }
-                myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() template=${template}"
+                if( myscript!=null ) {myscript.echo "in OpenshiftHelper.loadObjectsFromTemplate() template=${template}"}
                 List params=createProcessTemplateParameters(template.params, context)
                 String firstParam=template?.template
                 if (template.file){
