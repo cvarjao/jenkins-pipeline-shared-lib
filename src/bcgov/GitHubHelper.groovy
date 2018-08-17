@@ -158,7 +158,7 @@ class GitHubHelper {
                 builder.description(deploymentConfig.description)
             }
 
-            if (deploymentConfig.task) {
+            if (deploymentConfig.task) {${}
                 builder.task(deploymentConfig.task)
             }
 
@@ -198,6 +198,8 @@ class GitHubHelper {
     }
     static long createDeploymentStatus(CpsScript script, long deploymentId, String statusName, Map config) {
         script.echo "deploymentId:${deploymentId} - status:${statusName} - config:${config}"
+        script.echo "script.scm.getUserRemoteConfigs()[0]=${script.scm.getUserRemoteConfigs()[0]}"
+        script.echo "config=${config}"
         return createDeploymentStatus(script.scm.getUserRemoteConfigs()[0].getUrl(), deploymentId, statusName, config)
     }
     @NonCPS

@@ -426,18 +426,19 @@ class OpenShiftHelper {
     }
 
     def build(CpsScript script, Map context) {
+        script.echo "----- start OpenshiftHelper.build()"
         OpenShiftDSL openshift=script.openshift;
 
         def stashIncludes=[]
         for ( List templates : context.templates.values()){
             for ( Map template : templates){
-                script.echo "----- start OpenshuftHelper.build() template=${template}"
+                script.echo "----- in OpenshiftHelper.build() template=${template}"
                 if (template.file){
                     stashIncludes.add(template.file)
                 }
             }
         }
-        script.echo "----- in OpenshuftHelper.build() context=${context}"
+        script.echo "----- in OpenshiftHelper.build() context=${context}"
         script.echo "BRANCH_NAME=${script.env.BRANCH_NAME}\nCHANGE_ID=${script.env.CHANGE_ID}\nCHANGE_TARGET=${script.env.CHANGE_TARGET}\nBUILD_URL=${script.env.BUILD_URL}\nisPullRequestFromFork"
         script.echo "absoluteUrl=${script.currentBuild.absoluteUrl}"
 
@@ -447,7 +448,7 @@ class OpenShiftHelper {
 
         loadMetadata(script, context)
 
-        script.echo "isPullRequestFromFork:${context.isPullRequestFromFork}"
+        script.echo "----- in OpenshiftHelper.build() isPullRequestFromFork:${context.isPullRequestFromFork}"
 
         new GitHubHelper().createCommitStatus(script, context.commitId, 'PENDING', "${script.env.BUILD_URL}", 'Build', 'continuous-integration/jenkins/build')
 
@@ -459,10 +460,11 @@ class OpenShiftHelper {
             openshift.withProject(openshift.project()) {
                 checkProjectsAccess(script, openshift, context)
 
-                script.echo "Connected to project '${openshift.project()}' as user '${openshift.raw('whoami').out.tokenize()[0]}'"
+                script.echo "----- in OpenshiftHelper.build() Connected to project '${openshift.project()}' as user '${openshift.raw('whoami').out.tokenize()[0]}'"
                 def newObjects = loadObjectsFromTemplate(openshift, context.templates.build, context, 'build')
                 def currentObjects = loadObjectsByLabel(openshift, labels)
                 //script.echo "${currentObjects}"
+                script.echo "----- in OpenshiftHelper.build() newObjects.values()=${newObjects.values()}"
                 for (Map m : newObjects.values()){
                     if ('BuildConfig'.equalsIgnoreCase(m.kind)){
                         // apply last commit id/hash to spec.source.git.ref
@@ -687,6 +689,8 @@ class OpenShiftHelper {
         new GitHubHelper().createCommitStatus(script, context.commitId, 'SUCCESS', "${script.env.BUILD_URL}", 'Build', 'continuous-integration/jenkins/build')
         context.deployments = context.deployments?:[:]
         context.deployments['build']=['projectName':context.build.projectName, 'labels':labels, 'transient':true]
+        script.echo "----- end OpenshiftHelper.build()"
+        
     }
 
     private def applyBuildConfig(CpsScript script, OpenShiftDSL openshift, String appName, String envName, Map models, Map currentModels) {
